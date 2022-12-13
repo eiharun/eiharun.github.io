@@ -28,7 +28,7 @@ url: "https://eiharun.github.io/" # the base hostname & protocol for your site, 
 github_username:  eiharun
 
 # Build settings
-remote_theme: pages-themes/hacker@v0.2.0
+theme: minima
 plugins:
   - jekyll-feed
   - jekyll-remote-theme
