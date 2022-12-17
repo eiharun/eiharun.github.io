@@ -1,5 +1,5 @@
 ---
 layout: page
-title: "CTFs"
+title: "Personal Projects"
 permalink: /Personal-Projects
 ---
