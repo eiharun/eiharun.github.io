@@ -4,8 +4,66 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./style.css" />
-    <title>Blog</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./assets/style.css" />
+    <link rel="icon" href="favicon2.ico" />
+    <title>eiHarun Blog</title>
   </head>
-  <body></body>
+  <body>
+    <header class="header" id="header">
+      <nav class="navbar container">
+        <a href="./index.html"> <h2 class="logo">eiHarun</h2></a>
+        <div class="menu" id="menu">
+          <ul class="list">
+            <li class="list">
+              <a href="#" class="list-link current">Home</a>
+            </li>
+            <li class="list">
+              <a href="#" class="list-link">Blog Posts</a>
+            </li>
+            <li class="list">
+              <a href="#" class="list-link">Personal Todos</a>
+            </li>
+            <li class="list">
+              <a href="#" class="list-link">Personal Project</a>
+            </li>
+            <li class="list">
+              <a href="#" class="list-link screen-lg-hidden">My Portfolio</a>
+            </li>
+            <li class="list">
+              <a href="#" class="list-link">CTF Writeups</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="list list-right">
+          <button class="btn place-items-center" id="theme-toggle-btn">
+            <i class="ri-sun-line sun-icon"></i>
+            <i class="ri-moon-line moon-icon"></i>
+          </button>
+          <button class="btn place-items-center" id="search-icon">
+            <i class="ri-search-line"></i>
+          </button>
+          <button
+            class="btn place-items-center screen-lg-hidden menu-toggle-icon"
+            id="menu-toggle-icon"
+          >
+            <i class="ri-menu-3-line open-menu-icon"></i>
+            <i class="ri-close-line close-menu-icon"></i>
+          </button>
+          <a href="#" class="list-link screen-sm-hidden">Portfolio</a>
+          <a
+            href="#"
+            class="list-link screen-sm-hidden btt portfolio-ptn fancy-border"
+            ><span>Portfolio</span></a
+          >
+        </div>
+      </nav>
+    </header>
+
+    <script src="./assets/main.js"></script>
+  </body>
 </html>
