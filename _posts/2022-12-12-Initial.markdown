@@ -1,7 +1,0 @@
----
-layout: post
-title:  "Cryptopals"
-date:   2022-12-12 17:58:50 -0500
-categories: jekyll update
-permalink: /CTFs/0PracticeCTF_Writeups/Cryptopals/
----
