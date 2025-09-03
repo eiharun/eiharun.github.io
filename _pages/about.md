@@ -2,7 +2,7 @@
 layout: about
 title: about
 permalink: /
-subtitle: <a href='#'>Affiliations</a>. Address. Contacts. Motto. Etc.
+subtitle: 
 
 profile:
   align: right
@@ -25,8 +25,8 @@ latest_posts:
   limit: 3 # leave blank to include all the blog posts
 ---
 
-Write your biography here. Tell the world about yourself. Link to your favorite [subreddit](http://reddit.com). You can put a picture in, too. The code is already in, just name your picture `prof_pic.jpg` and put it in the `img/` folder.
+I am a computer engineer with a focus on embedded systems, operating systems, and networking. I recently completed my B.S. in Computer Engineering at Virginia Tech, where I concentrated in Networking & Cybersecurity and Software Systems. My experience spans kernel development, embedded hardware/software integration, and distributed applications.
 
-Put your address / P.O. box / other info right below your picture. You can also disable any of these elements by editing `profile` property of the YAML header of your `_pages/about.md`. Edit `_bibliography/papers.bib` and Jekyll will render your [publications page](/al-folio/publications/) automatically.
+I have worked as a Summer Research Intern at MIT Lincoln Laboratory, where I developed a simulator for EO/IR sensors in C++ and ported signal processing kernels to Rust, and as a Capture the Flag Developer at the Virginia Cyber Range, where I authored over fifty technical challenges in reverse engineering, networking, and cybersecurity. At Virginia Tech, I led a capstone team to design a LoRa-based venting system for high-altitude balloons, developed a wireless gait sensor to support fall-risk prediction, and created multiple Linux kernel modules, including a scheduler profiler and page table walker.
 
-Link to your social media connections, too. This theme is set up to use [Font Awesome icons](https://fontawesome.com/) and [Academicons](https://jpswalsh.github.io/academicons/), like the ones below. Add your Facebook, Twitter, LinkedIn, Google Scholar, or just disable all of them.
+I am passionate about building systems that bring hardware and software together to solve complex problems, and I am eager to continue contributing to projects with real-world impact.
