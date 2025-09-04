@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Track My Git
+title: track my git
 permalink: /commits/
 nav: true
 nav_order: 6
@@ -37,12 +37,11 @@ nav_order: 6
 <script>
 document.addEventListener("DOMContentLoaded", async () => {
   const container = document.getElementById("commits-container");
-  const username = "eiharun";
-  const MAX_COMMITS = 50;
+  const username = "eiharun"; // your GitHub username
 
   try {
-    // Step 1: Get all public repos sorted by last push
-    const reposRes = await fetch(`https://api.github.com/users/${username}/repos?per_page=100&sort=pushed`);
+    // Step 1: Get all public repos
+    const reposRes = await fetch(`https://api.github.com/users/${username}/repos?per_page=100`);
     if (!reposRes.ok) throw new Error(`GitHub API error (repos): ${reposRes.status}`);
     const repos = await reposRes.json();
 
@@ -53,34 +52,21 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     let allCommits = [];
 
-    // Step 2: Fetch commits for all branches of each repo
+    // Step 2: Fetch commits for each repo
     for (const repo of repos) {
-      // Get all branches
-      const branchesRes = await fetch(`https://api.github.com/repos/${username}/${repo.name}/branches?per_page=100`);
-      if (!branchesRes.ok) continue;
-      const branches = await branchesRes.json();
+      const branch = repo.default_branch || "main";
+      const commitsRes = await fetch(`https://api.github.com/repos/${username}/${repo.name}/commits?sha=${branch}&per_page=5`);
+      if (!commitsRes.ok) continue; // skip if error
+      const commits = await commitsRes.json();
 
-      for (const branch of branches) {
-        let page = 1;
-        while (true) {
-          const res = await fetch(`https://api.github.com/repos/${username}/${repo.name}/commits?sha=${branch.name}&per_page=100&page=${page}`);
-          if (!res.ok) break;
-          const commits = await res.json();
-          if (!commits.length) break;
-
-          commits.forEach(commit => {
-            allCommits.push({
-              message: commit.commit.message,
-              repo: repo.name,
-              url: commit.html_url,
-              date: new Date(commit.commit.author.date),
-              branch: branch.name
-            });
-          });
-
-          page++;
-        }
-      }
+      commits.forEach(commit => {
+        allCommits.push({
+          message: commit.commit.message,
+          repo: repo.name,
+          url: commit.html_url,
+          date: new Date(commit.commit.author.date)
+        });
+      });
     }
 
     if (!allCommits.length) {
@@ -88,16 +74,15 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
-    // Step 3: Sort all commits by newest first and slice the most recent 50
+    // Step 3: Sort newest first
     allCommits.sort((a,b) => b.date - a.date);
-    const latestCommits = allCommits.slice(0, MAX_COMMITS);
 
     // Step 4: Render commits in log-style <pre>
     container.innerHTML = "";
-    latestCommits.forEach(commit => {
+    allCommits.forEach(commit => {
       const pre = document.createElement("pre");
       pre.innerHTML = `💬 ${commit.message}
-📂 <a href="https://github.com/${username}/${commit.repo}" target="_blank">${commit.repo}</a> (branch: ${commit.branch}) • <a href="${commit.url}" target="_blank">view</a> • ${commit.date.toLocaleString()}`;
+📂 <a href="https://github.com/${username}/${commit.repo}" target="_blank">${commit.repo}</a> • <a href="${commit.url}" target="_blank">view</a> • ${commit.date.toLocaleString()}`;
       container.appendChild(pre);
     });
 
