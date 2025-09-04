@@ -1,0 +1,54 @@
+/* Spinner */
+.loading-spinner {
+  border: 6px solid #f3f3f3;
+  border-top: 6px solid #007bff;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  margin: 20px auto;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}
+.loading-text {
+  text-align: center;
+  font-size: 1rem;
+  color: #555;
+}
+
+/* Commit list */
+.commit-list {
+  list-style: none;
+  padding: 0;
+}
+.commit-item {
+  background: #f8f9fa;
+  border-left: 4px solid #007bff;
+  margin: 10px 0;
+  padding: 10px 15px;
+  border-radius: 6px;
+  transition: background 0.3s;
+}
+.commit-item:hover {
+  background: #eef5ff;
+}
+.commit-message {
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+.commit-meta {
+  font-size: 0.85rem;
+  color: #666;
+}
+.commit-meta a {
+  color: #007bff;
+  text-decoration: none;
+}
+.commit-meta a:hover {
+  text-decoration: underline;
+}
+.error {
+  color: red;
+  text-align: center;
+}
