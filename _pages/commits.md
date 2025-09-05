@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Track My Git
+title: track my git
 permalink: /commits/
 nav: true
 nav_order: 6

@@ -1,11 +1,41 @@
 [
   {
+    "sha": "2a7bcd2d6e7822a320a8be719ea4c276393c1329",
+    "message": "added gh actions & commits fetch",
+    "repo": "eiharun.github.io",
+    "branch": "track_my_git",
+    "url": "https://github.com/eiharun/eiharun.github.io/commit/2a7bcd2d6e7822a320a8be719ea4c276393c1329",
+    "date": "2025-09-05T23:10:45Z",
+    "author": "Harun Adiyaman",
+    "author_login": "eiharun"
+  },
+  {
     "sha": "056bf4fc5a26d5dbebb7a204be40139c1c2cc732",
     "message": "Ports, etc\n\n- Made improvements to printf (can call multiple times without\n  overwriting buffer)\n- Wrote ports.h/cpp it interact with PIC\n- Improved makefile to put all build files in build/",
     "repo": "PinguOS",
     "branch": "main",
     "url": "https://github.com/eiharun/PinguOS/commit/056bf4fc5a26d5dbebb7a204be40139c1c2cc732",
     "date": "2025-09-05T00:58:45Z"
+  },
+  {
+    "sha": "70409c6a4fa736d1636d04ee6ddd77d116978422",
+    "message": "Revert \"show most recent 50 commits\"\n\nThis reverts commit 66df5b0b6467280f5817b30df631737793121672.",
+    "repo": "eiharun.github.io",
+    "branch": "track_my_git",
+    "url": "https://github.com/eiharun/eiharun.github.io/commit/70409c6a4fa736d1636d04ee6ddd77d116978422",
+    "date": "2025-09-04T03:50:32Z",
+    "author": "Harun Adiyaman",
+    "author_login": "eiharun"
+  },
+  {
+    "sha": "66df5b0b6467280f5817b30df631737793121672",
+    "message": "show most recent 50 commits",
+    "repo": "eiharun.github.io",
+    "branch": "track_my_git",
+    "url": "https://github.com/eiharun/eiharun.github.io/commit/66df5b0b6467280f5817b30df631737793121672",
+    "date": "2025-09-04T03:44:15Z",
+    "author": "Harun Adiyaman",
+    "author_login": "eiharun"
   },
   {
     "sha": "631d0f2515b05c543b1753ad6b8e4ae4d6f1701b",
