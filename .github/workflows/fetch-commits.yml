@@ -1,0 +1,110 @@
+name: Fetch GitHub Commits Inline
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: "0 0 * * *" # every day
+
+jobs:
+  fetch-commits:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2. Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      # 3. Fetch commits and write JSON inline
+      - name: Fetch commits
+        run: |
+          node -e "
+          const fetch = require('node-fetch');
+          const fs = require('fs');
+          const username = 'eiharun';
+          const MAX_STORE = 5000;
+          const headers = { 'User-Agent': 'github-actions' };
+
+          async function getJSON(url) {
+            const res = await fetch(url, { headers });
+            if (!res.ok) {
+              console.error('Failed GET', url, res.status);
+              return null;
+            }
+            return res.json();
+          }
+
+          (async () => {
+            try {
+              const repos = await getJSON(`https://api.github.com/users/${username}/repos?per_page=100&sort=pushed`);
+              if (!Array.isArray(repos)) throw new Error('Could not load repos');
+
+              const commitsMap = new Map();
+
+              for (const repo of repos) {
+                const branches = await getJSON(`https://api.github.com/repos/${username}/${repo.name}/branches?per_page=100`);
+                if (!Array.isArray(branches)) continue;
+
+                for (const branch of branches) {
+                  let page = 1;
+                  while (true) {
+                    const url = `https://api.github.com/repos/${username}/${repo.name}/commits?sha=${encodeURIComponent(branch.name)}&per_page=100&page=${page}`;
+                    const commits = await getJSON(url);
+                    if (!Array.isArray(commits) || commits.length === 0) break;
+
+                    for (const c of commits) {
+                      if (!c.author || c.author.login !== username) continue;
+
+                      const sha = c.sha;
+                      if (!commitsMap.has(sha)) {
+                        commitsMap.set(sha, {
+                          sha,
+                          message: c.commit?.message || '',
+                          repo: repo.name,
+                          branch: branch.name,
+                          url: c.html_url,
+                          date: c.commit?.author?.date || null,
+                        });
+                      }
+                      if (commitsMap.size >= MAX_STORE) break;
+                    }
+
+                    if (commitsMap.size >= MAX_STORE) break;
+                    page++;
+                  }
+                  if (commitsMap.size >= MAX_STORE) break;
+                }
+                if (commitsMap.size >= MAX_STORE) break;
+              }
+
+              const allCommits = Array.from(commitsMap.values())
+                .filter(x => x.date)
+                .sort((a,b) => new Date(b.date) - new Date(a.date));
+
+              const outputDir = 'assets/json';
+              if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir, { recursive: true });
+              fs.writeFileSync(`${outputDir}/commits.json`, JSON.stringify(allCommits, null, 2));
+
+              console.log(`✅ Wrote ${allCommits.length} commits to ${outputDir}/commits.json`);
+            } catch (err) {
+              console.error('Error building commits JSON:', err);
+              process.exit(1);
+            }
+          })();
+          "
+
+      # 4. Commit & push updated JSON
+      - name: Commit updated commits.json
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add assets/json/commits.json
+          git diff --cached --quiet || git commit -m "Update commits.json [skip ci]"
+          git push

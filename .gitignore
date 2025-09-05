@@ -11,3 +11,5 @@ assets/libs/
 node_modules/
 vendor
 .idea
+.env
+__fetch_commits.js
