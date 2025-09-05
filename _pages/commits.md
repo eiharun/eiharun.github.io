@@ -1,6 +1,6 @@
 ---
 layout: page
-title: track my git
+title: Track My Git
 permalink: /commits/
 nav: true
 nav_order: 6
@@ -9,86 +9,90 @@ nav_order: 6
 # Recent GitHub Commits
 
 <div id="commits-container">
-  <div class="loading-spinner"></div>
+  <div class="spinner"></div>
   <p class="loading-text">Fetching commits...</p>
 </div>
 
 <style>
-/* Spinner */
-.loading-spinner {
+.spinner {
+  margin: 20px auto;
   border: 4px solid #f3f3f3;
-  border-top: 4px solid #007bff;
-  border-radius: 50%;
+  border-top: 4px solid #555;
+  border-radius: 30px;
   width: 30px;
   height: 30px;
-  margin: 15px auto;
   animation: spin 1s linear infinite;
 }
 @keyframes spin { 100% { transform: rotate(360deg); } }
 
-.loading-text {
-  text-align: center;
-  font-size: 0.95rem;
-  color: #555;
-  margin-top: 5px;
+.load-more-btn {
+  display: block;
+  margin: 20px auto;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  background-color: #444;
+  color: white;
+  cursor: pointer;
 }
+.load-more-btn:hover { background-color: #666; }
 </style>
 
 <script>
 document.addEventListener("DOMContentLoaded", async () => {
   const container = document.getElementById("commits-container");
-  const username = "eiharun"; // your GitHub username
+  const commitsPerPage = 50;
+  let commits = [];
+  let page = 0;
 
   try {
-    // Step 1: Get all public repos
-    const reposRes = await fetch(`https://api.github.com/users/${username}/repos?per_page=100`);
-    if (!reposRes.ok) throw new Error(`GitHub API error (repos): ${reposRes.status}`);
-    const repos = await reposRes.json();
+    const res = await fetch("/assets/json/commits.json?cachebust=" + Date.now());
+    if (!res.ok) throw new Error("Failed to fetch commits.json");
+    commits = await res.json();
 
-    if (!repos.length) {
-      container.innerHTML = "<p>No public repositories found.</p>";
-      return;
-    }
-
-    let allCommits = [];
-
-    // Step 2: Fetch commits for each repo
-    for (const repo of repos) {
-      const branch = repo.default_branch || "main";
-      const commitsRes = await fetch(`https://api.github.com/repos/${username}/${repo.name}/commits?sha=${branch}&per_page=5`);
-      if (!commitsRes.ok) continue; // skip if error
-      const commits = await commitsRes.json();
-
-      commits.forEach(commit => {
-        allCommits.push({
-          message: commit.commit.message,
-          repo: repo.name,
-          url: commit.html_url,
-          date: new Date(commit.commit.author.date)
-        });
-      });
-    }
-
-    if (!allCommits.length) {
+    if (!commits.length) {
       container.innerHTML = "<p>No commits found.</p>";
       return;
     }
 
-    // Step 3: Sort newest first
-    allCommits.sort((a,b) => b.date - a.date);
+    container.innerHTML = ""; // clear spinner on fresh load
 
-    // Step 4: Render commits in log-style <pre>
-    container.innerHTML = "";
-    allCommits.forEach(commit => {
-      const pre = document.createElement("pre");
-      pre.innerHTML = `💬 ${commit.message}
-📂 <a href="https://github.com/${username}/${commit.repo}" target="_blank">${commit.repo}</a> • <a href="${commit.url}" target="_blank">view</a> • ${commit.date.toLocaleString()}`;
-      container.appendChild(pre);
-    });
+    function renderCommits() {
+      const start = page * commitsPerPage;
+      const end = start + commitsPerPage;
+      const slice = commits.slice(start, end);
 
-  } catch (error) {
-    container.innerHTML = `<p style="color:red">❌ Failed to load commits: ${error.message}</p>`;
-    console.error(error);
+      slice.forEach(commit => {
+        const pre = document.createElement("pre");
+        pre.innerHTML = `💬 ${commit.message}
+📂 <a href="https://github.com/eiharun/${commit.repo}" target="_blank">${commit.repo}</a> • <a href="${commit.url}" target="_blank">view</a> • ${new Date(commit.date).toLocaleString()}`;
+        container.appendChild(pre);
+      });
+
+      // Remove old button if it exists
+      const oldBtn = document.querySelector(".load-more-btn");
+      if (oldBtn) oldBtn.remove();
+
+      // Add "Load 50 more" button at bottom if needed
+      if (end < commits.length) {
+        const btn = document.createElement("button");
+        btn.textContent = "Load 50 more";
+        btn.className = "load-more-btn";
+        btn.addEventListener("click", () => {
+          page++;
+          renderCommits();
+        });
+        container.appendChild(btn); // always appended at the end
+      }
+    }
+
+    // Always start fresh on page load
+    page = 0;
+    renderCommits();
+
+  } catch (err) {
+    container.innerHTML = `<p style="color:red">❌ Failed to load commits: ${err.message}</p>`;
+    console.error(err);
   }
 });
 </script>
