@@ -2,14 +2,13 @@
 layout: about
 title: about
 permalink: /
-subtitle: 
+subtitle:
 
 profile:
   align: right
   image: prof_pic.jpg
   image_circular: false # crops the image to make it circular
   more_info: >
-  
 
 selected_papers: false # includes a list of papers marked as "selected={true}"
 social: true # includes social icons at the bottom of the page
@@ -27,6 +26,8 @@ latest_posts:
 
 I am a computer engineer with a focus on embedded systems, operating systems, and networking. I recently completed my B.S. in Computer Engineering at Virginia Tech, where I concentrated in Networking & Cybersecurity and Software Systems. My experience spans kernel development, embedded hardware/software integration, and distributed applications.
 
-I have worked as a Summer Research Intern at MIT Lincoln Laboratory, where I developed a simulator for EO/IR sensors in C++ and ported signal processing kernels to Rust, and as a Capture the Flag Developer at the Virginia Cyber Range, where I authored over fifty technical challenges in reverse engineering, networking, and cybersecurity. At Virginia Tech, I led a capstone team to design a LoRa-based venting system for high-altitude balloons, developed a wireless gait sensor to support fall-risk prediction, and created multiple Linux kernel modules, including a scheduler profiler and page table walker.
+I have worked as a Summer Research Intern at MIT Lincoln Laboratory, where I developed a simulator for EO/IR sensors in C++ and ported radar signal processing kernels to Rust, and as a Capture the Flag Developer at the Virginia Cyber Range, where I authored over fifty technical challenges in reverse engineering, networking, and cybersecurity. At Virginia Tech, I led a capstone team to design a LoRa-based venting system for high-altitude balloons, developed a wireless gait sensor to support fall-risk prediction, and created multiple Linux kernel modules, including a scheduler profiler and page table walker.
+
+I am currently developing [PinguOS](https://github.com/eiharun/PinguOS), a 32-bit operating system kernel for the i386 architecture, built entirely from scratch in C++ and assembly. This project has provided me with hands-on experience in low-level systems programming, hardware-software interaction, and kernel architecture. PinguOS currently includes PS/2 keyboard and mouse drivers, a VGA text/graphics driver with a foundational GUI framework, a preemptive multitasking scheduler, and dynamic memory management using a custom heap allocator. In addition, I have implemented interrupt handling, basic PCI device enumeration, and modular subsystems that establish the groundwork for further expansion toward a fully featured OS. Through this work, I have gained a deep understanding of memory models, context switching, device communication, and the challenges of building robust abstractions directly atop bare metal hardware.
 
 I am passionate about building systems that bring hardware and software together to solve complex problems, and I am eager to continue contributing to projects with real-world impact.
